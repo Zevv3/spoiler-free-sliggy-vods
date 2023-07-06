@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sliggy VODs</title>
+  </head>
+  <body>
+    <h1>Sliggy VODs</h1>
+    <form method="POST" action="/">
+      <button type="submit">Refresh VOD list</button>
+    </form>
+    <ul>
+      {% for team, links in video_data.items() %}
+      <li>{{ team }}</li>
+      <ul>
+        {% for video in links %}
+        {% set map_number, link = video %}
+        <li><a href="{{ link }}">Map {{ map_number }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
+
