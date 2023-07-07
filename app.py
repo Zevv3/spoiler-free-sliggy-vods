@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, send_from_directory
 from scraping import get_videos
 import os
+import time
 
 app = Flask(__name__)
 
@@ -17,6 +18,19 @@ def home():
     else:
         return render_template('index.html', video_data=None)
     
-@app.route('/favicon.ico', methods=['GET'])
-def favicon(): 
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+MAX_RETRIES = 3
+RETRY_DELAY = 1  # Delay in seconds between retries
+
+@app.route('/favicon.ico')
+def favicon():
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+        except FileNotFoundError:
+            retries += 1
+            print('retry')
+            time.sleep(RETRY_DELAY)
+
+    # If retries exhausted and file still not found, return an empty string
+    return ''
