@@ -57,7 +57,7 @@ def get_videos():
             maps.appendleft(link)
             maps.pop()
         else:
+            maps = series[teams]
             maps.appendleft(link)
-            maps.pop()
         
     return series
