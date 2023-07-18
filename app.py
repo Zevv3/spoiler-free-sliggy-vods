@@ -19,7 +19,7 @@ def home():
         return render_template('index.html', video_data=None)
     
 MAX_RETRIES = 3
-RETRY_DELAY = 1  # Delay in seconds between retries
+RETRY_DELAY = 1
 
 @app.route('/favicon.ico')
 def favicon():
@@ -31,6 +31,4 @@ def favicon():
             retries += 1
             print('retry')
             time.sleep(RETRY_DELAY)
-
-    # If retries exhausted and file still not found, return an empty string
     return ''

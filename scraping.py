@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
+from collections import deque
 
 def get_videos():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -33,6 +34,7 @@ def get_videos():
 
     titles = driver.find_elements(By.ID, 'video-title')
     links = driver.find_elements(By.ID, 'video-title-link')
+    # driver.find_element(By.CLASS_NAME)
 
     videos = {title.text: link.get_attribute('href') for title, link in zip(titles, links)}
 
@@ -46,20 +48,16 @@ def get_videos():
             best_of = 5
         else:
             best_of = 3
-        if 'Map' in title:
-            split_title = title.split(' Map ')
-        if 'MAP' in title:
-            split_title = title.split(' MAP ')
-        teams = split_title[0].lower()
-        map_number = split_title[1].split()[0]
+        split_title = title.lower().split(' ')
+        teams = split_title[0].upper() + ' ' + split_title[1] + ' ' + split_title[2].upper()
         if teams not in series:
             default_value = 'https://www.youtube.com/'
-            maps = [default_value] * best_of
+            maps = deque([default_value] * best_of)
             series[teams] = maps
-            index = int(map_number) - 1
-            maps[index] = link
+            maps.appendleft(link)
+            maps.pop()
         else:
-            index = int(map_number) - 1
-            maps[index] = link
+            maps.appendleft(link)
+            maps.pop()
         
     return series
