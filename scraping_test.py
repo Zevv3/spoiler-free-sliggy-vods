@@ -65,5 +65,9 @@ def get_videos():
             maps = series[teams]
             maps.appendleft(link)
             maps.pop()
+
+    print(series)
         
     return series
+
+get_videos()
