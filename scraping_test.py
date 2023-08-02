@@ -43,6 +43,8 @@ def get_videos():
 
     videos = {title.text: link.get_attribute('href') for title, link in zip(titles, links)}
 
+    print(videos)
+
     # titles = [title.text for title in titles]
     # teams = [title.split('Map')[0] for title in titles]
     # links = [link.get_attribute('href') for link in links]
@@ -58,7 +60,10 @@ def get_videos():
         if teams not in series:
             default_value = 'https://www.youtube.com/'
             maps = deque([default_value] * best_of)
-            series[teams] = maps
+            if best_of == 5:
+                series[teams + 'final'] = maps
+            else:
+                series[teams] = maps
             maps.appendleft(link)
             maps.pop()
         else:
@@ -66,8 +71,6 @@ def get_videos():
             maps.appendleft(link)
             maps.pop()
 
-    print(series)
-        
     return series
 
-get_videos()
+print(get_videos())

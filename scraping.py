@@ -55,15 +55,28 @@ def get_videos():
             best_of = 3
         split_title = title.lower().split(' ')
         teams = split_title[0].upper() + ' ' + split_title[1] + ' ' + split_title[2].upper()
-        if teams not in series:
-            default_value = 'https://www.youtube.com/'
-            maps = deque([default_value] * best_of)
-            series[teams] = maps
-            maps.appendleft(link)
-            maps.pop()
-        else:
-            maps = series[teams]
-            maps.appendleft(link)
-            maps.pop()
+        if best_of == 5:
+            if teams + ' finals' not in series:
+                default_value = 'https://www.youtube.com/'
+                maps = deque([default_value] * best_of)
+                series[teams + ' finals'] = maps
+                maps.appendleft(link)
+                maps.pop()
+            else:
+                maps = series[teams + ' finals']
+                maps.appendleft(link)
+                maps.pop()
+        if best_of == 3:
+            if teams not in series:
+                default_value = 'https://www.youtube.com/'
+                maps = deque([default_value] * best_of)
+                series[teams] = maps
+                maps.appendleft(link)
+                maps.pop()
+            else:
+                maps = series[teams]
+                maps.appendleft(link)
+                maps.pop()
+        
         
     return series
