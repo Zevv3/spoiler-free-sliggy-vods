@@ -14,7 +14,7 @@
       <ul class="teams-list">
         {% for teams, links in video_data.items() %}
         <li class="teams-item">
-          <h2>{{ teams }}</h2>
+            <h2 class="team-name">{{ teams }}</h2>
           <ul class="video-list">
             {% for map_number, link in links %}
             <li class="video-item">
@@ -29,5 +29,14 @@
       <p>No videos available. Use the Refresh button to load VODS. This application requires Firefox to be installed on your pc</p>
       {% endif %}
     </div>
+    <script>
+      const overlayContainers = document.querySelectorAll('.team-name');
+      overlayContainers.forEach(container => {
+          container.addEventListener('click', () => {
+              container.classList.toggle('active');
+          });
+      });
+  </script>
+  
   </body>
 </html>
