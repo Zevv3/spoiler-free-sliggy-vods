@@ -8,4 +8,5 @@ pip install -r requirements.txt
 to install the required packages  
 then use  
 flask run  
-to start the app, copy paste the server flask tells you it is running on into your browser and you are good to go!
+to start the app  
+copy paste the server flask tells you it is running on into your browser and you are good to go!
