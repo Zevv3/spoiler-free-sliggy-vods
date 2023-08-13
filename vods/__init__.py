@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, send_from_directory
-from scraping import get_videos
+from vods.scraping import get_videos
 import os
 import time
 
