@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-9">
+    <title>Sliggy VODs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+    <div class="container">
+      <h1>Sliggy VODs</h1>
+      <form method="POST" action="/">
+        <button type="submit">Refresh VOD list</button>
+      </form>
+      {% if video_data %}
+      <ul class="teams-list">
+        {% for teams, links in video_data.items() %}
+        <li class="teams-item">
+            <h2 class="team-name">{{ teams }}</h2>
+          <ul class="video-list">
+            {% for map_number, link in links %}
+            <li class="video-item">
+              <a href="{{ link }}">Map {{ map_number }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No videos available. Use the Refresh button to load VODS. This application requires Firefox to be installed on your pc</p>
+      {% endif %}
+    </div>
+    <script>
+      const overlayContainers = document.querySelectorAll('.team-name');
+      overlayContainers.forEach(container => {
+          container.addEventListener('click', () => {
+              container.classList.toggle('active');
+          });
+      });
+  </script>
+  
+  </body>
+</html>
