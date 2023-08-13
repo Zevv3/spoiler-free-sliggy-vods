@@ -9,11 +9,13 @@ import time
 from collections import deque
 
 def get_videos():
-    options = webdriver.FirefoxOptions()
-    options.add_argument('-headless')
+    service = Service()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Firefox(options=options)
+    options.add_argument("--remote-allow-origins=*") 
+    driver = webdriver.Chrome(service=service, options=options)
     driver.get('https://www.youtube.com/@Sliggytv/videos')
 
     WAIT_IN_SECONDS = 2
