@@ -57,13 +57,22 @@ def get_videos():
             best_of = 5
         else:
             best_of = 3
+        if 'lower' in title.lower():
+            lower = True
+        else:
+            lower = False
         split_title = title.lower().split(' ')
         teams = split_title[0].upper() + ' ' + split_title[1] + ' ' + split_title[2].upper()
+        teams_variation = split_title[2].upper() + ' ' + split_title[1] + ' ' + split_title[0].upper()
         if best_of == 5:
-            if teams + ' finals' not in series:
+            if teams + ' finals' not in series and teams_variation + ' finals' not in series:
                 default_value = 'https://www.youtube.com/'
                 maps = deque([default_value] * best_of)
                 series[teams + ' finals'] = maps
+                maps.appendleft(link)
+                maps.pop()
+            if teams_variation + ' finals' in series:
+                maps = series[teams_variation + ' finals']
                 maps.appendleft(link)
                 maps.pop()
             else:
@@ -71,16 +80,36 @@ def get_videos():
                 maps.appendleft(link)
                 maps.pop()
         if best_of == 3:
-            if teams not in series:
-                default_value = 'https://www.youtube.com/'
-                maps = deque([default_value] * best_of)
-                series[teams] = maps
-                maps.appendleft(link)
-                maps.pop()
+            if lower:
+                if teams + ' lower' not in series and teams_variation + ' lower' not in series:
+                    default_value = 'https://www.youtube.com/'
+                    maps = deque([default_value] * best_of)
+                    series[teams + ' lower'] = maps
+                    maps.appendleft(link)
+                    maps.pop()
+                if teams_variation + ' lower' in series:
+                    maps = series[teams_variation + ' lower']
+                    maps.appendleft(link)
+                    maps.pop()
+                else:
+                    maps = series[teams + ' lower']
+                    maps.appendleft(link)
+                    maps.pop()
             else:
-                maps = series[teams]
-                maps.appendleft(link)
-                maps.pop()
+                if teams not in series and teams_variation not in series:
+                    default_value = 'https://www.youtube.com/'
+                    maps = deque([default_value] * best_of)
+                    series[teams] = maps
+                    maps.appendleft(link)
+                    maps.pop()
+                if teams_variation in series:
+                    maps = series[teams_variation]
+                    maps.appendleft(link)
+                    maps.pop()
+                else:
+                    maps = series[teams]
+                    maps.appendleft(link)
+                    maps.pop()
         
         
     return series
